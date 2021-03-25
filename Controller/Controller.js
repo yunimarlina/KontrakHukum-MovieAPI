@@ -5,8 +5,8 @@ class Controller{
   static async showAllMovies(req,res){
     try{
       let movies = await Movie.findAll()
-      console.log(movies)
-      res.status(200).json(movies)
+      // console.log(movies)
+      res.status(200).json({list: movies})
 
     }
     catch(error){
@@ -18,8 +18,7 @@ class Controller{
   static async showTopMovies(req,res){
     try{
       let movies = await Movie.findAll({order:[['rating', 'DESC']],limit: 10})
-      console.log(movies)
-      res.status(200).json(movies)
+      res.status(200).json({top: movies})
 
     }
     catch(error){

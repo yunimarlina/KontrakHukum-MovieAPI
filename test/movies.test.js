@@ -68,11 +68,11 @@ let id = ''
 //   stock: 20
 // }
 
-describe('Create Booking POST / SUCCESS CASE', () => {
+describe('GET COMPARE ALL MOVIES / SUCCESS CASE', () => {
     describe('SUCCESS CASE', () => {
     test('test should send message Success', (done) => {
         request(app)
-            .post('/:id')
+            .get('/movies')
             // .set('access_token', access_token)
             // .send(product_data)
             .end((err, res)=> {
@@ -83,353 +83,57 @@ describe('Create Booking POST / SUCCESS CASE', () => {
                   return done(err)
                 }
                 else {
-                    expect(res.status).toBe(201)
+                    expect(res.status).toBe(200)
+                    expect(res.body).toHaveProperty('list')
+                    done()
+                }
+            })
+    })
+  })
+})
+describe('GET TOP A10 MOVIES / SUCCESS CASE', () => {
+  describe('SUCCESS CASE', () => {
+    test('test should send message Success', (done) => {
+        request(app)
+            .get('/top')
+            .end((err, res)=> {
+                const { body, status } = res
+                if (err) {
+                  return done(err)
+                }
+                else {
+                    expect(res.status).toBe(200)
+                    expect(res.body).toHaveProperty('top')
+                    done()
+                }
+            })
+    })
+  })
+})
+
+describe('CREATE BOOKING MOVIES / SUCCESS CASE', () => {
+  describe('SUCCESS CASE', () => {
+    test('test should send message Success', (done) => {
+        request(app)
+            .post('/movies/'+ 1)
+            .send({
+                title: "Black Panther",
+                name: "nama",
+                amount: "2",
+                bookingDate: new Date()
+          
+          })
+            .end((err, res)=> {
+                const { body, status } = res
+                if (err) {
+                  return done(err)
+                }
+                else {
+                    expect(res.status).toBe(200)
                     expect(res.body).toHaveProperty('message')
                     done()
                 }
             })
     })
   })
-
-//   describe(' FAILED CASE: invalid sequelize validation error', () => {
-//     test('test should send object with message error', (done) => {
-//         request(app)
-//             .post('/products')
-//             .set('access_token', access_token)
-//             .send({
-//                 name: '',
-//                 image_url: '',
-//                 price: '',
-//                 stock: ''
-//             })
-//             .end((err, res) => {
-//                 if (err) throw err
-//                 else {
-//                     expect(res.status).toBe(400)
-//                     expect(res.body).toHaveProperty('message')
-//                     done()
-//                 }
-//             })
-//     })
-//   })
-
-//   describe('FAILED CASE: no acces token', () => {
-//     test('test should send object with message error', (done) => {
-//         request(app)
-//             .post('/products')
-//             .set('access_token','' )
-//             .send({
-//               product_data
-//             })
-//             .end((err, res) => {
-//                 if (err) throw err
-//                 else {
-//                     expect(res.status).toBe(401)
-//                     expect(res.body).toHaveProperty('message','Login First')
-//                     done()
-//                 }
-//             })
-//     })
-//   })
-
-//   describe('FAILED CASE: invalid acces token/ not admin', () => {
-//     test('test should send object with message error', (done) => {
-//         request(app)
-//             .post('/products')
-//             .set('access_token',access_token_user )
-//             .send({
-//               product_data
-//             })
-//             .end((err, res) => {
-//                 if (err) throw err
-//                 else {
-//                     expect(res.status).toBe(401)
-//                     expect(res.body).toHaveProperty('message','You Dont Have Permission to Do this Action')
-//                     done()
-//                 }
-//             })
-//     })
-//   })
-
-//   describe('FAILED CASE: invalid input stock < 0', () => {
-//     test('test should send object with message error', (done) => {
-//         request(app)
-//             .post('/products')
-//             .set('access_token',access_token )
-//             .send({
-//               name: 'Product name',
-//               image_url: 'link image',
-//               price: 1000,
-//               stock: -2
-//             })
-//             .end((err, res) => {
-//                 if (err) throw err
-//                 else {
-//                     expect(res.status).toBe(400)
-//                     expect(res.body).toHaveProperty('message','Stock / Price Must be greater than 0')
-//                     done()
-//                 }
-//             })
-//     })
-//   })
-
-//   describe('FAILED CASE: invalid input price < 0', () => {
-//     test('test should send object with message error', (done) => {
-//         request(app)
-//             .post('/products')
-//             .set('access_token',access_token )
-//             .send({
-//               name: 'Product name',
-//               image_url: 'link image',
-//               price: -1000,
-//               stock: 2
-//             })
-//             .end((err, res) => {
-//                 if (err) throw err
-//                 else {
-//                     expect(res.status).toBe(400)
-//                     expect(res.body).toHaveProperty('message','Stock / Price Must be greater than 0')
-//                     done()
-//                 }
-//             })
-//     })
-//   })
-
-
-//   describe('FAILED CASE: invalid input price not an Integer', () => {
-//     test('test should send object with message error', (done) => {
-//         request(app)
-//             .post('/products')
-//             .set('access_token',access_token )
-//             .send({
-//               name: 'Product name',
-//               image_url: 'link image',
-//               price: 'lalala',
-//               stock: 2
-//             })
-//             .end((err, res) => {
-//                 if (err) throw err
-//                 else {
-//                     expect(res.status).toBe(400)
-//                     expect(res.body).toHaveProperty('message','Stock / Price Must be a number')
-//                     done()
-//                 }
-//             })
-//     })
-//   })
-//   describe('FAILED CASE: invalid input stock not an Integer', () => {
-//     test('test should send object with message error', (done) => {
-//         request(app)
-//             .post('/products')
-//             .set('access_token',access_token )
-//             .send({
-//               name: 'Product name',
-//               image_url: 'link image',
-//               price: 30000,
-//               stock:  'yeyeye'
-//             })
-//             .end((err, res) => {
-//                 if (err) throw err
-//                 else {
-//                     expect(res.status).toBe(400)
-//                     expect(res.body).toHaveProperty('message','Stock / Price Must be a number')
-//                     done()
-//                 }
-//             })
-//     })
-//   })
-// })
-
-// describe('EDIT Product PUT/products/:id ', () => {
-//   describe('SUCCESS CASE', () => {
-//   test('test should send object with keys: name, image_url, price, stock', (done) => {
-//       request(app)
-//           .put(`/products/${id}`)
-//           .set('access_token', access_token)
-//           .send({
-//             name: 'Product name Baru',
-//             image_url: 'link image',
-//             price: 2000,
-//             stock:  2
-//           })
-//           .end((err, res)=> {
-//               const { body, status } = res
-//               // id = res.body.id
-//               console.log(res.body)
-//               if (err) {
-//                 console.log(err)
-//                 return done(err)
-                
-//               }
-//               else {
-                
-//                   expect(res.status).toBe(200)
-               
-//                   // expect(body).toHaveProperty('name', 'Product name edited')
-//                   // expect(body).toHaveProperty('image_url', 'link image')
-//                   // expect(body).toHaveProperty('price', 1000)
-//                   // expect(body).toHaveProperty('stock', 200)
-//                   done()
-//               }
-//           })
-//   })
-// })
-
-// describe(' FAILED CASE UPDATE : invalid sequelize validation error', () => {
-//   test('test should send object with message error', (done) => {
-//       request(app)
-//           .put(`/products/${id}`)
-//           .set('access_token', access_token)
-//           .send({
-//               name: '',
-//               image_url: '',
-//               price: '',
-//               stock: ''
-//           })
-//           .end((err, res) => {
-//               if (err) throw err
-//               else {
-//                   expect(res.status).toBe(400)
-//                   expect(res.body).toHaveProperty('message')
-//                   done()
-//               }
-//           })
-//   })
-// })
-
-// describe('FAILED CASE UPDATE: no acces token', () => {
-//   test('test should send object with message error', (done) => {
-//       request(app)
-//           .put(`/products/${id}`)
-//           .set('access_token','' )
-//           .send({
-//             product_data
-//           })
-//           .end((err, res) => {
-//               if (err) throw err
-//               else {
-//                   expect(res.status).toBe(401)
-//                   expect(res.body).toHaveProperty('message','Login First')
-//                   done()
-//               }
-//           })
-//   })
-// })
-
-// describe('FAILED CASE UPDATE: invalid acces token/ not admin', () => {
-//   test('test should send object with message error', (done) => {
-//       request(app)
-//           .put(`/products/${id}`)
-//           .set('access_token',access_token_user )
-//           .send({
-//             product_data
-//           })
-//           .end((err, res) => {
-//               if (err) throw err
-//               else {
-//                   expect(res.status).toBe(401)
-//                   expect(res.body).toHaveProperty('message','You Dont Have Permission to Do this Action')
-//                   done()
-//               }
-//           })
-//   })
-// })
-
-// describe('FAILED CASE UPDATE : invalid input stock and price < 0', () => {
-//   test('test should send object with message error', (done) => {
-//       request(app)
-//           .put(`/products/${id}`)
-//           .set('access_token',access_token )
-//           .send({
-//             name: 'Product name',
-//             image_url: 'link image',
-//             price: -1000,
-//             stock: -2
-//           })
-//           .end((err, res) => {
-//               if (err) throw err
-//               else {
-//                   expect(res.status).toBe(400)
-//                   expect(res.body).toHaveProperty('message')
-//                   done()
-//               }
-//           })
-//   })
-// })
-
-
-// describe('FAILED CASE UPDATE: invalid input stock and price not an Integer', () => {
-//   test('test should send object with message error', (done) => {
-//       request(app)
-//           .put(`/products/${id}`)
-//           .set('access_token',access_token )
-//           .send({
-//             name: 'Product name',
-//             image_url: 'link image',
-//             price: 'lalala',
-//             stock: 'yeyeye'
-//           })
-//           .end((err, res) => {
-//               if (err) throw err
-//               else {
-//                   expect(res.status).toBe(400)
-//                   expect(res.body).toHaveProperty('message')
-//                   done()
-//               }
-//           })
-//   })
-// })
-// })
-
-// describe('DELETE /products/:id', () => {
-//   describe('SUCCESS CASE', () => {
-//     test('test should send object with message ', done => {
-//       request(app)
-//         .delete(`/products/${id}`)
-//         .set('access_token', access_token)
-//         .end((err, res)=>{
-//           const { body, status } = res
-//           if(err){
-//             return done(err)
-//           }
-//           expect(status).toBe(200)
-//           expect(body).toHaveProperty('message', `Successfully deleted`)
-//           done()
-//         })    
-//     })
-//   })
-//   describe('FAILED CASE: No Access Token', () => {
-//     test('test should send object with message error ', done => {
-//       request(app)
-//         .delete(`/products/${id}`)
-//         .set('access_token', '')
-//         .end((err, res)=>{
-//           const { body, status } = res
-//           if(err){
-//             return done(err)
-//           }
-//           expect(status).toBe(401)
-//           expect(body).toHaveProperty('message','Login First')
-//           done()
-//         })    
-//     })
-//   })
-//   describe('FAILED CASE: role Not Admin', () => {
-//     test('test should send object with message error ', done => {
-//       request(app)
-//         .delete(`/products/${id}`)
-//         .set('access_token', access_token_user)
-//         .end((err, res)=>{
-//           const { body, status } = res
-//           if(err){
-//             return done(err)
-//           }
-//           expect(status).toBe(401)
-//           expect(body).toHaveProperty('message','You Dont Have Permission to Do this Action')
-//           done()
-//         })    
-//     })
-//   })  
 })
-
-

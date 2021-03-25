@@ -2,8 +2,8 @@ const router = require('express').Router()
 const Controller = require('../Controller/Controller')
 
 
-router.post('/:id', Controller.booking)
-router.get('/', Controller.showAllMovies)
+router.post('/movies/:id', Controller.booking)
+router.get('/movies', Controller.showAllMovies)
 router.get('/top', Controller.showTopMovies)
 
 
